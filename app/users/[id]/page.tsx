@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { revalidatePath } from "next/cache";
-import Button from "app/users/[id]/components/button";
-import { getUser, updateUser } from "services/data/users";
+import Form from "app/users/[id]/components/form";
+import { getUser } from "services/data/users";
 
 type UsersIDPageProps = {
   params: {
@@ -19,18 +18,7 @@ const UsersIDPage = async ({ params }: UsersIDPageProps) => {
       </Link>
       <pre>ID: {user.id}</pre>
       <pre>NAME: {user.name}</pre>
-      <form
-        action={async (formData: FormData) => {
-          "use server";
-
-          await updateUser(user.id, formData.get("name") as string);
-
-          revalidatePath(`/users/${user.id}`);
-        }}
-      >
-        <input className="input input-secondary" type="text" name="name" />
-        <Button />
-      </form>
+      <Form userID={user.id} />
     </div>
   );
 };
